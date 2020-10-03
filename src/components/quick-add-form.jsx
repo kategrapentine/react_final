@@ -11,7 +11,7 @@ export default function QuickAddForm(props) {
 
     return(
         <InputGroup className="mb-3">
-            <FormControl onChange={spellOnChange} placeholder="ex. magic-missile"/>
+            <FormControl onChange={spellOnChange} value={spell} placeholder="ex. magic-missile"/>
             <InputGroup.Append>
                 <Button
                     onClick={onClick}>Add Spell</Button>

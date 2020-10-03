@@ -34,7 +34,12 @@ code {
   font-family: 'Sansita Swashed', cursive;
 }
 
-.Card {
+.prepared {
+  height: 95%;
+}
+
+.unprepared {
+  background-color: #ffffff75;
   height: 95%;
 }
 

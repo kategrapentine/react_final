@@ -4,7 +4,6 @@ import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container'
-import { Button } from 'react-bootstrap';
 
 import {
   BrowserRouter as Router,
@@ -17,6 +16,7 @@ import Banner from './components/banner';
 import Library from './components/library';
 import Home from './components/home';
 import Spellbook from './components/spellbook';
+import Homebrew from './components/homebrew';
 
 
 export default class App extends React.Component {
@@ -43,15 +43,17 @@ fetchSpells = async () => {
               spells: [...this.state.spells, data]
             });
           })
-      }) 
+      })
     })
 }
+
 
 addSpell = (object) => {
   let newObject = {...object, prepared: true};
   this.setState({
-    spellbook: [...this.state.spellbook, newObject]
+    spellbook: [newObject, ...this.state.spellbook]
   });
+  this.setState({spell: ""});
   alert(`${object.name} has been added too your spellbook!`);
 }
 
@@ -71,17 +73,35 @@ removeSpell = (index, spell) => {
   } 
 }
 
+updateSpell = (index) => {
+  let spellbookCopy = [...this.state.spellbook];
+  spellbookCopy[index].prepared = ! spellbookCopy[index].prepared;
+  let spell = spellbookCopy.splice(index, 1);
+  this.setState({
+    spellbook: spellbookCopy
+  });
+  spell[0].prepared === true
+  ?
+  this.setState({
+    spellbook: [spell[0], ...spellbookCopy]
+  })
+  :
+  this.setState({
+    spellbook: [...spellbookCopy, spell[0]]
+  })
+}
+
 quickAddSpell = async (string) => {
+  string = string.replace(' ', '-').toLowerCase();
   if (string === "") {
     alert("Please enter a spell first!")
   } else {
     try {
-      console.log(string);
       const resp = await fetch(`https://www.dnd5eapi.co/api/spells/${string}`);
       const data = await resp.json();
 
       resp.ok === true
-      ? this.addSpell(data)
+      ? this.addSpell(data) 
       : alert(`"${string}" was not found. Please check your spelling.`);
     } catch(e) {
       console.log(e);
@@ -91,11 +111,8 @@ quickAddSpell = async (string) => {
 
 spellOnChange = (e) => {
   e.preventDefault()
-  let spell = e.target.value
-  spell = spell.replace(' ', '-').toLowerCase();
-  console.log(spell);
   this.setState({
-      spell: spell
+      spell: e.target.value
   });
 }
 
@@ -107,19 +124,23 @@ spellOnChange = (e) => {
           
             <Banner />
             <Navbar bg="dark" variant="dark">
-              <Link className="navbrand" to="/"><Navbar.Brand>D{'&'}D 5e Spells</Navbar.Brand></Link>
+              <Link className="navbrand" to="/"><Navbar.Brand>D{'&'}D 5e Spellbook</Navbar.Brand></Link>
                 <Nav.Link><Link className="nav" to="/">Home</Link></Nav.Link>
                 <Nav.Link><Link className="nav" to="/library">Library</Link></Nav.Link>
                 <Nav.Link><Link className="nav" to="/spellbook">Your SpellBook</Link></Nav.Link>
+                <Nav.Link><Link className="nav" to="/homebrew">Homebrew</Link></Nav.Link>
             </Navbar>
             <br/>
 
             <Switch>
+              <Route path='/homebrew'>
+                <Homebrew addSpell={this.addSpell} />
+              </Route>
               <Route path='/library'>
                 <Library spells={this.state.spells} addSpell={this.addSpell} />
               </Route>
               <Route path='/spellbook'>
-                <Spellbook spells={this.state.spellbook} list={false} removeSpell={this.removeSpell} 
+                <Spellbook spells={this.state.spellbook} list={false} removeSpell={this.removeSpell} updateSpell={this.updateSpell} 
                            spell={this.state.spell} quickAddSpell={this.quickAddSpell} spellOnChange={this.spellOnChange} />
               </Route>
               <Route path='/'>
