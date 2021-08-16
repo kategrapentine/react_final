@@ -119,7 +119,7 @@ spellOnChange = (e) => {
 
   render(){
     return (
-        <Container className="main" >  
+        <Container className="main" fluid>  
           <Router>
           
             <Banner />

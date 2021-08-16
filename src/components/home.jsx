@@ -16,7 +16,7 @@ const infoText = [
 ]
 
     return (
-        <Container>
+        <Container fluid>
             <PageTitleCard title={"Welcome!"} text={titleText} />
             <br/>
             <PageTitleCard title={"How to use D&D 5e Spellbook:"} text={infoText} />

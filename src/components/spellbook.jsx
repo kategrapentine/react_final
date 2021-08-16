@@ -12,7 +12,7 @@ export default function Spellbook(props) {
     ]
 
     return (
-        <Container>
+        <Container fluid>
             <PageTitleCard title="Spellbook" text={text} quickAdd={true} quickAddSpell={quickAddSpell} spell={spell} spellOnChange={spellOnChange} />
             <br/>
             <hr className="hr" />

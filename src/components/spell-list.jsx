@@ -8,7 +8,7 @@ export default function SpellList(props) {
     return (
         <Row>
             {spells?.map((spell, index) => (
-                <Col lg="6">
+                <Col lg="4">
                     <SpellCard 
                         spell={spell} 
                         index={index} 

@@ -9,7 +9,7 @@ export default function Homebrew(props) {
         "You will not be able to edit the spell once it is created, so make sure you have filled out the fields you need. Make sure to store your spell information elsewhere if you want to save it. Stay on the page or the fields will be erased."
     ]
     return (
-        <Container>
+        <Container fluid>
             <PageTitleCard title="Homebrew a Spell" text={text} homebrew={true} addSpell={addSpell}  />
         </Container>
     )
